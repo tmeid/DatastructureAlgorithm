@@ -6,28 +6,30 @@
 
 /* Phân tích:
  *
- * Có 3 tr?: source (S), auxililary (A), target (T)
- * n : s? g? ban d?u c?a tr? source
- * Sau khi phân tích hình v? 2 tru?ng h?p n ch?n và l?, rút ra vài quy lu?t:
- * QL1: T?ng s? l?n d?ch chuy?n nh? nh?t các kh?i g? d? hoàn thành game: 2^n - 1
- * QL2: Khi so sánh quy lu?t c?a ch?n và l? có 1 s? di?u sau: S gi? nguyên, bên ch?n là A thì bên l? d?i thành T và ngu?c l?i
- * VD: n: l? S->T  ==> n: ch?n S->A 
-             S->A              S->T 
-             T->A              A->T
- * QL3: Ð?i v?i n = l? thì ta nh?n th?y:
- Có 3 case: khi ch?y for(step = 1 d?n 2^n - 1): 
+ * 3 poles: source (S), auxililary (A), target (T)
+ * n : the orginal disks of source pole
+ * analyze images with 2 cases: odd, even. I assume that
+ * 1: total minimum of moving to finish the game = 2^n - 1
+ * 2: even: T => odd: A
+ *          A =>      T 
+ * Ex: n = odd: step 1. S->T  ==> n: even S->A 
+              step 2. S->A              S->T 
+              step 3. T->A              A->T
+ * 3: n = odd:
+ Has 3 cases: for(step = 1 d?n 2^n - 1): 
                 + case 1: step % 3 = 1 (S -> T or T -> S)
                 + case 2: step % 3 = 2 (S -> A or A -> S)
                 + case 3: step % 3 = 0 (A -> T or T -> A)
-  - K?t h?p v?i QL2, khi n ch?n case 1 tr? thành: S->A / A->S
-                                case 2: S->T / T->S
-                                case 3: T->A / A->T
-  => ta th?c hi?n quy lu?t 3 theo n l?, còn n ch?n ta ch? c?n hoán d?i gi?a A và T.
- * QL4: 1 trong 3 case trên có 1 di?m chung là d?u chuy?n g? t? FROM d?n TO, và l?i t?o ra ti?p nh?ng case sau:
-                + case 1: FROM là empty, thì g? t? TO -> FROM
-                + case 2: TO là empty thì g? t? FROM -> TO
-                + case 3: FROM > TO (xét giá tr? c?a g? dang ? trên cùng c?a 2 tr?): thì g? t? TO -> FROM
-                + case 4: TO > FROM (xét giá tr? c?a g? dang ? trên cùng c?a 2 tr?): thì g? t? FROM -> TO
+  -  n = even 
+ Has 3 cases: + case 1: step % 3 = 1 (S -> A or A -> S)
+                + case 2: step % 3 = 2 (S -> T or T -> S)
+                + case 3: step % 3 = 0 (T -> A or A -> T)
+  => swap A and T with n = even
+ * 4: all of 3 cases above all have in common: 
+                + case 1: FROM is empty, move disk from TO -> FROM
+                + case 2: TO is empty, move disk from FROM -> TO
+                + case 3: peek(FROM) > peek(TO), move disk from TO -> FROM
+                + case 4: peek(TO) > peek(FROM), move disk from FROM -> TO
  *
  * PERFECT :D:D 
  *

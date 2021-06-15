@@ -2,12 +2,12 @@
 #include<stdlib.h>
 #include <stdbool.h>
 
-// Nh?n xét: 
-// 1. t?i node dang xét n?u l?y leftmost-subtree - rightmost-subtree: -1/+1: balanced, > 1: l?ch trái (Left left case/ left rigth case), < -1 : l?ch ph?i (right right case/ right left case)
-// 2. v?y làm sao bi?t dang thu?c case nào trong 4 case trên?
-// - N?u node du?c chèn vào < giá tr? c?a node dang xét->left => trái trái
-// - N?u > : trái ph?i
-// - tuong t? v?i ph?i ph?i và ph?i trái
+// 
+// 1. leftmost-subtree - rightmost-subtree: -1/+1: balanced, > 1: left case (Left left case/ left rigth case), < -1 : right case (right right case/ right left case)
+// 2. 
+// - If node is inserted has value < value of current node->left => left left
+// - > : left right
+// - similarly with right case
 
 struct Node{
     int data;
@@ -40,7 +40,7 @@ int main(){
     root = insert(root, 4);
     root = insert(root, 6);
     
-    // insett node 7 s? làm cây không d?t AVL
+    // insert node 7 => BST is now unbalanced
     root = insert(root, 7);
 
 
@@ -70,27 +70,27 @@ str_node* insert(str_node* node, int item){
     else if(item > node->data)
         node->right = insert(node->right, item);
     else
-      // neu item = node->data thi k insert
+      // if item = node->data => not insert
       return node;
     
-    // neu insert thanh cong thi tinh balanced factor, neu roi vào 1 in 4 case sau thi không ph?i là AVL:
+    // if insert successfully => calc balanced factor:
     int balancedFac = balanceFactor(node);
 
-    // lech trai
+    // left case
     if(balancedFac > 1){
-      // trai trai:
+      // left left:
       if(item < node->left->data)
-        // xoay phai tai node mat can bang va return pivot m?i l?i cho ham da goi truoc do (node->left or node->right)
+        // right rotate at the unbalanced node, then return new pivot to the function call(node->left or node->right recursive function above)
         return rotateRight(node);
       else if(item > node->left->data){
-      // xoay phai tai node->left, sau do xoay phai tai node bi mat can bang, remian pivot moi lai cho ham da goi de quy
+      // left rotate, then right rotate at the unbalances node, next return the new pivot to the recursive function (node->left or node->right above)
         node->left = rotateLeft(node->left);
         return rotateRight(node);
       }
     }
-    // lech phai
+    // right case
     else if(balancedFac < -1){
-      // phai phai:
+      // right right
       if(item > node->right->data)
         return rotateLeft(node);
       else if(item < node->right->data){
@@ -98,7 +98,7 @@ str_node* insert(str_node* node, int item){
         return rotateLeft(node);
       }
     }
-    //  n?u node dang xét cân b?ng thì không c?n xoay cây, ch? c?n return node l?i cho node->left ho?c node->right c?a l?n g?i d? quy tru?c. l?n tr? d? quy cu?i cùng return l?i cho main.
+    //  if BST is AVL, no need to rotate, return node to the recursive function. in the end, return root to main
     return node;
 }
 int treeLevel(str_node* node){
