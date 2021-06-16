@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
 #include<limits.h>
@@ -57,7 +57,7 @@ int main(void) {
   Stack * auxiliary = NULL;
   Stack * target = NULL;
 
-  int disks = 5;
+  int disks = 10;
   for(int i = disks; i >= 1; i--){
     push(&source, i);
   }
@@ -98,8 +98,8 @@ void iterative(int totalDisks, Stack ** src, Stack ** aux, Stack ** target){
   char destiny = 'T';
 
   if(totalDisks % 2 == 0){
-    char tmp = source;
-    source = destiny;
+    char tmp = auxiliary;
+    auxiliary = destiny;
     destiny = tmp;
   }
 
@@ -148,4 +148,3 @@ int peek(Stack* root){
   
   return root->data;
 }
-
