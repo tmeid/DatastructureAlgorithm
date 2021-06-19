@@ -7,6 +7,8 @@ function GCD(a, b){
     return b;
 
   // recursive case
+  // b always less than a,
+  // if not: (b, a % b) will swap a, b (a % b = a) ==> recursion later we will have b < a
   return GCD(b, a % b);
 }
 
